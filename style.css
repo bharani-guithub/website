@@ -76,3 +76,31 @@ p {
     font-size: 2.3rem;
   }
 }
+
+/* ============================================
+   LIGHT MODE — applied when JS adds
+   class="light-mode" to <body>
+   ============================================ */
+body.light-mode {
+  background: #f8fafc;
+  color: #0f172a;
+}
+body.light-mode p {
+  color: #475569;
+}
+
+/* The toggle button itself */
+#theme-toggle {
+  margin-top: 24px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+#theme-toggle:hover {
+  background: rgba(148, 163, 184, 0.15);
+}
