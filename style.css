@@ -5,14 +5,20 @@
 /* This targets the <body> tag — the whole page */
 body {
   margin: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: #0f172a;
   color: #f8fafc;
   font-family: 'Segoe UI', Arial, sans-serif;
   text-align: center;
+}
+
+/* The hero (welcome) section now handles the full-screen centering
+   that used to be on <body> */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* The big heading */
@@ -103,4 +109,75 @@ body.light-mode p {
 }
 #theme-toggle:hover {
   background: rgba(148, 163, 184, 0.15);
+}
+
+/* ============================================
+   ABOUT ME SECTION
+   ============================================ */
+.about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  text-align: left;
+}
+
+/* Circular "photo" placeholder with your initials */
+.about-photo {
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #60a5fa, #c084fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.about-content h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.about-bio {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: inherit;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+body.light-mode .about-bio {
+  color: #334155;
+}
+
+/* Skill tags — small rounded pills */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.skill-tag {
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+/* On small screens, stack the photo above the text instead of side-by-side */
+@media (max-width: 700px) {
+  .about {
+    flex-direction: column;
+    text-align: center;
+    padding: 60px 24px;
+  }
+  .skills {
+    justify-content: center;
+  }
 }
