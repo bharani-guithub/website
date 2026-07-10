@@ -52,3 +52,27 @@ p {
   transform: translateY(-8px) scale(1.2);
   text-shadow: 0 0 12px currentColor;
 }
+
+/* ============================================
+   RESPONSIVE DESIGN — rules that only apply
+   when the screen is 600px wide or smaller
+   (i.e. most phones)
+   ============================================ */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.8rem;       /* smaller than the 3rem used on desktop */
+    padding: 0 16px;         /* breathing room on the sides */
+    line-height: 1.4;
+  }
+  p {
+    font-size: 0.95rem;
+    padding: 0 16px;
+  }
+}
+
+/* Optional middle ground for tablets */
+@media (max-width: 900px) and (min-width: 601px) {
+  h1 {
+    font-size: 2.3rem;
+  }
+}
