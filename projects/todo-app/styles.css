@@ -1,0 +1,258 @@
+/* Reset default browser spacing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 20px;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f766e,
+            #14b8a6,
+            #5eead4
+        );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main todo card */
+.container {
+    width: 100%;
+    max-width: 480px;
+    padding: 35px;
+
+    background-color: rgba(255, 255, 255, 0.96);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.2);
+
+    animation: fadeIn 0.5s ease;
+}
+
+/* Main heading */
+h1 {
+    margin-bottom: 25px;
+
+    color: #134e4a;
+
+    text-align: center;
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+
+/* Input field */
+#todoInput {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+
+    font-size: 16px;
+
+    color: #1f2937;
+    background-color: #f8fafc;
+
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+
+    outline: none;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        background-color 0.3s ease;
+}
+
+/* Input active state */
+#todoInput:focus {
+    background-color: white;
+    border-color: #0f766e;
+
+    box-shadow:
+        0 0 0 4px rgba(15, 118, 110, 0.15);
+}
+
+/* Add button */
+#addButton {
+    width: 100%;
+    padding: 14px;
+
+    color: white;
+    background-color: #0f766e;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Add button hover */
+#addButton:hover {
+    background-color: #115e59;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(15, 118, 110, 0.3);
+}
+
+/* Add button click */
+#addButton:active {
+    transform: translateY(0);
+}
+
+/* Todo list */
+#todoList {
+    margin-top: 25px;
+
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Individual task */
+#todoList li {
+    padding: 14px 15px;
+
+    color: #1f2937;
+    background-color: #f0fdfa;
+
+    border-left: 5px solid #14b8a6;
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.08);
+
+    animation: taskAppear 0.3s ease;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+/* Task hover */
+#todoList li:hover {
+    background-color: #ccfbf1;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Delete button */
+.delete-btn {
+    padding: 8px 12px;
+
+    color: white;
+    background-color: #ef4444;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Delete button hover */
+.delete-btn:hover {
+    background-color: #dc2626;
+
+    transform: scale(1.05);
+
+    box-shadow:
+        0 5px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Delete button click */
+.delete-btn:active {
+    transform: scale(0.95);
+}
+
+/* Page opening animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* New task animation */
+@keyframes taskAppear {
+    from {
+        opacity: 0;
+        transform: translateX(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Mobile styling */
+@media (max-width: 500px) {
+    body {
+        align-items: flex-start;
+        padding-top: 40px;
+    }
+
+    .container {
+        padding: 25px 20px;
+        border-radius: 16px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    #todoList li {
+        font-size: 15px;
+    }
+}
+.app-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
