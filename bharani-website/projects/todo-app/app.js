@@ -1,10 +1,6 @@
 // ============================================
-// app.js — Todo App with Firebase Cloud Sync
+// app.js — Todo App with Firebase, Priority & Drag-to-Reorder
 // ============================================
-
-// ⚠️  REPLACE the values below with your own Firebase project config.
-// Get them from: https://console.firebase.google.com
-//   → Your Project → ⚙️ Project Settings → Your apps → Web app → firebaseConfig
 
 const firebaseConfig = {
   apiKey:            "AIzaSyB1t-uQwdpc6YMMHcDbAkVexlOqm3B5hRM",
@@ -16,12 +12,11 @@ const firebaseConfig = {
   appId:             "1:315781092514:web:d0bed98d5f4c8b7cda33fb"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // ============================================
-// DOM references
+// DOM
 // ============================================
 const loginScreen     = document.getElementById("loginScreen");
 const appScreen       = document.getElementById("appScreen");
@@ -29,15 +24,37 @@ const loginForm       = document.getElementById("loginForm");
 const usernameInput   = document.getElementById("usernameInput");
 const displayUsername = document.getElementById("displayUsername");
 const logoutBtn       = document.getElementById("logoutBtn");
-const todoForm        = document.getElementById("todoForm");
 const todoInput       = document.getElementById("todoInput");
+const prioritySelect  = document.getElementById("prioritySelect");
+const addButton       = document.getElementById("addButton");
 const todoList        = document.getElementById("todoList");
 const taskCount       = document.getElementById("taskCount");
 const emptyMessage    = document.getElementById("emptyMessage");
 const loadingMessage  = document.getElementById("loadingMessage");
+const countHigh       = document.getElementById("countHigh");
+const countMedium     = document.getElementById("countMedium");
+const countLow        = document.getElementById("countLow");
 
 let currentUsername = null;
 let tasks = [];
+let draggedId = null;
+
+// ============================================
+// THEME
+// ============================================
+const themeToggle = document.getElementById("themeToggle");
+
+function applyTheme(dark) {
+  document.body.classList.toggle("dark-mode", dark);
+  themeToggle.textContent = dark ? "☀️ Light" : "🌙 Dark";
+  localStorage.setItem("theme", dark ? "dark" : "light");
+}
+
+applyTheme(localStorage.getItem("theme") === "dark");
+
+themeToggle.addEventListener("click", function () {
+  applyTheme(!document.body.classList.contains("dark-mode"));
+});
 
 // ============================================
 // LOGIN
@@ -47,15 +64,11 @@ loginForm.addEventListener("submit", function (e) {
   const username = usernameInput.value.trim().toLowerCase();
   if (!username) return;
   currentUsername = username;
-  showApp();
-});
-
-function showApp() {
   loginScreen.style.display = "none";
-  appScreen.style.display   = "block";
+  appScreen.style.display   = "flex";
   displayUsername.textContent = currentUsername;
-  loadTasksFromFirebase();
-}
+  loadTasks();
+});
 
 logoutBtn.addEventListener("click", function () {
   currentUsername = null;
@@ -67,9 +80,9 @@ logoutBtn.addEventListener("click", function () {
 });
 
 // ============================================
-// FIREBASE — Load tasks
+// FIREBASE — Load
 // ============================================
-function loadTasksFromFirebase() {
+function loadTasks() {
   loadingMessage.style.display = "block";
   emptyMessage.style.display   = "none";
   todoList.innerHTML = "";
@@ -78,73 +91,175 @@ function loadTasksFromFirebase() {
     .then(function (snapshot) {
       loadingMessage.style.display = "none";
       tasks = snapshot.exists() ? (snapshot.val().tasks || []) : [];
-      tasks.forEach(displayTask);
-      updateTaskSummary();
+      renderAllTasks();
     })
     .catch(function (err) {
-      loadingMessage.textContent = "⚠️ Could not load tasks. Check your Firebase config.";
+      loadingMessage.textContent = "⚠️ Could not load tasks. Check your connection.";
       console.error(err);
     });
 }
 
 // ============================================
-// FIREBASE — Save tasks
+// FIREBASE — Save
 // ============================================
-function saveTasksToFirebase() {
+function saveTasks() {
   db.ref("todos/" + currentUsername).set({ tasks: tasks })
-    .catch(function (err) {
-      console.error("Save failed:", err);
-    });
+    .catch(function (err) { console.error("Save failed:", err); });
 }
 
 // ============================================
-// TASK DISPLAY
+// RENDER
 // ============================================
-function displayTask(task) {
+const priorityOrder = { high: 0, medium: 1, low: 2 };
+
+function sortedTasks() {
+  return [...tasks].sort(function (a, b) {
+    return (priorityOrder[a.priority || "medium"] || 1) - (priorityOrder[b.priority || "medium"] || 1);
+  });
+}
+
+function renderAllTasks() {
+  todoList.innerHTML = "";
+  sortedTasks().forEach(function (task) { renderTask(task); });
+  updateSummary();
+}
+
+function updateDashboard() {
+  countHigh.textContent   = tasks.filter(function (t) { return (t.priority || "medium") === "high"; }).length;
+  countMedium.textContent = tasks.filter(function (t) { return (t.priority || "medium") === "medium"; }).length;
+  countLow.textContent    = tasks.filter(function (t) { return (t.priority || "medium") === "low"; }).length;
+}
+
+function renderTask(task) {
   const li = document.createElement("li");
+  li.setAttribute("data-id", task.id);
+  li.setAttribute("data-priority", task.priority || "medium");
 
-  const taskText = document.createElement("span");
-  taskText.textContent = task.text;
-  taskText.classList.add("task-text");
+  // Drag handle
+  const handle = document.createElement("span");
+  handle.className = "drag-handle";
+  handle.innerHTML = "⠿";
+  handle.title = "Drag to reorder";
 
-  const deleteButton = document.createElement("button");
-  deleteButton.textContent = "Delete";
-  deleteButton.classList.add("delete-btn");
-  deleteButton.type = "button";
-  deleteButton.setAttribute("aria-label", `Delete task: ${task.text}`);
-
-  deleteButton.addEventListener("click", function () {
-    tasks = tasks.filter(function (t) { return t.id !== task.id; });
-    saveTasksToFirebase();
-    li.remove();
-    updateTaskSummary();
-    todoInput.focus();
+  // Priority badge — click to cycle
+  const priorities = ["high", "medium", "low"];
+  const badge = document.createElement("span");
+  badge.className = "priority-badge " + (task.priority || "medium");
+  badge.textContent = task.priority || "medium";
+  badge.title = "Click to change priority";
+  badge.style.cursor = "pointer";
+  badge.addEventListener("click", function (e) {
+    e.stopPropagation();
+    const current = priorities.indexOf(task.priority || "medium");
+    task.priority = priorities[(current + 1) % priorities.length];
+    badge.className = "priority-badge " + task.priority;
+    badge.textContent = task.priority;
+    li.setAttribute("data-priority", task.priority);
+    saveTasks();
+    renderAllTasks();
   });
 
-  li.appendChild(taskText);
-  li.appendChild(deleteButton);
+  // Task text
+  const text = document.createElement("span");
+  text.className = "task-text";
+  text.textContent = task.text;
+
+  // Delete button
+  const del = document.createElement("button");
+  del.className = "delete-btn";
+  del.textContent = "Delete";
+  del.setAttribute("aria-label", "Delete: " + task.text);
+  del.addEventListener("click", function (e) {
+    e.stopPropagation();
+    tasks = tasks.filter(function (t) { return t.id !== task.id; });
+    saveTasks();
+    li.remove();
+    updateSummary();
+  });
+
+  li.appendChild(handle);
+  li.appendChild(badge);
+  li.appendChild(text);
+  li.appendChild(del);
   todoList.appendChild(li);
+
+  // Drag & drop
+  attachDrag(li, task.id);
 }
 
-function updateTaskSummary() {
-  taskCount.textContent = tasks.length === 1 ? "1 task" : `${tasks.length} tasks`;
+function updateSummary() {
+  taskCount.textContent = tasks.length;
   emptyMessage.style.display = tasks.length === 0 ? "block" : "none";
+  updateDashboard();
 }
 
 // ============================================
 // ADD TASK
 // ============================================
-todoForm.addEventListener("submit", function (event) {
-  event.preventDefault();
-  const taskText = todoInput.value.trim();
-  if (!taskText) return;
+addButton.addEventListener("click", addTask);
+todoInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") addTask();
+});
 
-  const newTask = { id: Date.now(), text: taskText };
+function addTask() {
+  const text = todoInput.value.trim();
+  if (!text) return;
+
+  const newTask = {
+    id:       Date.now(),
+    text:     text,
+    priority: prioritySelect.value
+  };
+
   tasks.push(newTask);
-  saveTasksToFirebase();
-  displayTask(newTask);
-  updateTaskSummary();
+  saveTasks();
+  renderTask(newTask);
+  updateSummary();
 
   todoInput.value = "";
   todoInput.focus();
-});
+}
+
+// ============================================
+// DRAG & DROP
+// ============================================
+function attachDrag(li, taskId) {
+  li.setAttribute("draggable", "true");
+
+  li.addEventListener("dragstart", function () {
+    draggedId = taskId;
+    setTimeout(function () { li.classList.add("dragging"); }, 0);
+  });
+
+  li.addEventListener("dragend", function () {
+    li.classList.remove("dragging");
+    document.querySelectorAll("#todoList li").forEach(function (el) {
+      el.classList.remove("drag-over");
+    });
+  });
+
+  li.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    if (draggedId === taskId) return;
+    document.querySelectorAll("#todoList li").forEach(function (el) {
+      el.classList.remove("drag-over");
+    });
+    li.classList.add("drag-over");
+  });
+
+  li.addEventListener("drop", function (e) {
+    e.preventDefault();
+    if (draggedId === taskId) return;
+
+    const fromIndex = tasks.findIndex(function (t) { return t.id === draggedId; });
+    const toIndex   = tasks.findIndex(function (t) { return t.id === taskId; });
+
+    if (fromIndex === -1 || toIndex === -1) return;
+
+    const moved = tasks.splice(fromIndex, 1)[0];
+    tasks.splice(toIndex, 0, moved);
+
+    saveTasks();
+    renderAllTasks();
+  });
+}

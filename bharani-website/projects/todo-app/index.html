@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A simple todo application for creating and managing daily tasks.">
   <title>My Todo App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,7 +15,7 @@
   <div id="loginScreen" class="login-screen">
     <div class="login-card">
       <div class="login-icon">
-        <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="52" height="52" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="lg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stop-color="#0f766e"/>
@@ -28,53 +30,72 @@
           <polyline points="40,46 44,50 52,41" stroke="#0f766e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <h1>My Todo App</h1>
-      <p class="login-subtitle">Enter your username to access your tasks from any device</p>
+      <h1>Todo App</h1>
+      <p class="login-subtitle">Enter your username to sync tasks across all your devices</p>
       <form id="loginForm">
-        <input
-          type="text"
-          id="usernameInput"
-          placeholder="Enter your username"
-          autocomplete="off"
-          maxlength="30"
-          required
-        />
-        <button type="submit" id="loginButton">Continue →</button>
+        <input type="text" id="usernameInput" placeholder="Username" autocomplete="off" maxlength="30" required/>
+        <button type="submit" id="loginButton">Get Started →</button>
       </form>
-      <p class="login-hint">New username? We'll create your list automatically.</p>
+      <p class="login-hint">No account needed — your username is your key.</p>
     </div>
   </div>
 
   <!-- ===== MAIN APP ===== -->
-  <main class="container" id="appScreen" style="display:none;">
+  <main class="app" id="appScreen" style="display:none;">
 
+    <!-- Header -->
     <header class="app-header">
-      <div class="header-top">
+      <div class="header-left">
+        <span class="header-logo">✦</span>
         <div>
-          <h1>My Todo App</h1>
-          <p class="app-subtitle">Logged in as <strong id="displayUsername"></strong></p>
+          <h1 class="app-title">My Tasks</h1>
+          <p class="app-user">@<span id="displayUsername"></span></p>
         </div>
-        <button id="logoutBtn" title="Switch user">⇄ Switch</button>
+      </div>
+      <div class="header-right">
+        <button id="themeToggle">🌙 Dark</button>
+        <button id="logoutBtn">⇄ Switch</button>
       </div>
     </header>
 
-    <form id="todoForm">
-      <label for="todoInput" class="sr-only">Enter a new task</label>
-      <div class="input-group">
-        <input type="text" id="todoInput" name="todo" placeholder="Enter a task..." autocomplete="off" maxlength="100" required>
-        <button type="submit" id="addButton">Add Task</button>
+    <!-- Dashboard -->
+    <div class="dashboard">
+      <div class="dash-card high">
+        <span class="dash-count" id="countHigh">0</span>
+        <span class="dash-label">High</span>
       </div>
-    </form>
+      <div class="dash-card medium">
+        <span class="dash-count" id="countMedium">0</span>
+        <span class="dash-label">Medium</span>
+      </div>
+      <div class="dash-card low">
+        <span class="dash-count" id="countLow">0</span>
+        <span class="dash-label">Low</span>
+      </div>
+    </div>
 
-    <section class="task-section" aria-labelledby="taskHeading">
-      <div class="task-header">
-        <h2 id="taskHeading">Your Tasks</h2>
-        <span id="taskCount" aria-live="polite">0 tasks</span>
+    <!-- Add task form -->
+    <div class="add-task-bar">
+      <input type="text" id="todoInput" placeholder="Add a new task…" autocomplete="off" maxlength="100"/>
+      <select id="prioritySelect">
+        <option value="medium">🟡 Medium</option>
+        <option value="high">🔴 High</option>
+        <option value="low">🟢 Low</option>
+      </select>
+      <button id="addButton" type="button">+ Add</button>
+    </div>
+
+    <!-- Task list -->
+    <div class="task-area">
+      <div class="task-area-header">
+        <span class="task-area-title">Tasks</span>
+        <span id="taskCount" class="task-count-badge">0</span>
+        <span class="drag-hint">drag to reorder</span>
       </div>
-      <p id="loadingMessage">Loading your tasks...</p>
-      <p id="emptyMessage" style="display:none;">No tasks yet. Add your first task above.</p>
-      <ul id="todoList" aria-live="polite"></ul>
-    </section>
+      <p id="loadingMessage" class="state-msg">Loading your tasks…</p>
+      <p id="emptyMessage" class="state-msg" style="display:none;">No tasks yet. Add one above!</p>
+      <ul id="todoList"></ul>
+    </div>
 
   </main>
 

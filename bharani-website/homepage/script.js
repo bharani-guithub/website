@@ -24,11 +24,17 @@ setInterval(updateClock, 1000);
 // ----- DARK / LIGHT TOGGLE -----
 const toggleButton = document.getElementById('theme-toggle');
 
+function applyTheme(dark) {
+  document.body.classList.toggle('dark-mode', dark);
+  toggleButton.textContent = dark ? '☀️ Light' : '🌙 Dark';
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+}
+
+// Apply saved preference on load
+applyTheme(localStorage.getItem('theme') === 'dark');
+
 toggleButton.addEventListener('click', function () {
-  document.body.classList.toggle('light-mode');
-  toggleButton.textContent = document.body.classList.contains('light-mode')
-    ? '🌙 Dark'
-    : '☀️ Light';
+  applyTheme(!document.body.classList.contains('dark-mode'));
 });
 
 // ----- CONTACT FORM -----
@@ -51,6 +57,6 @@ window.addEventListener('scroll', () => {
     }
   });
   navLinks.forEach(link => {
-    link.style.color = link.getAttribute('href') === `#${current}` ? '#f8fafc' : '';
+    link.style.color = link.getAttribute('href') === `#${current}` ? '#0f172a' : '';
   });
 });

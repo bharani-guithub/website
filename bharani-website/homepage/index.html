@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bharani Kumar Velakaturi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,36 +19,42 @@
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <button id="theme-toggle">☀️ Light</button>
+    <button id="theme-toggle">🌙 Dark</button>
   </nav>
 
   <!-- ===== HERO ===== -->
   <section class="hero">
     <p class="hero-greeting">HI, I'm</p>
-    <h1>Bharani Kumar Velakaturi</h1>
+    <h1>Bharani Kumar<br>Velakaturi</h1>
     <p class="hero-sub">Working professional · Guitarist · Building things from scratch</p>
     <p id="clock"></p>
-    <a href="#projects" class="btn-primary">See My Work</a>
+    <a href="#projects" class="btn-primary">See My Work →</a>
   </section>
 
   <!-- ===== ABOUT ME ===== -->
   <section class="about" id="about">
-    <div class="about-photo">BK</div>
-    <div class="about-content">
-      <h2>About Me</h2>
-      <p class="about-bio">
-        Hello, I'm Bharani Kumar Velakaturi — a working professional with a
-        growing passion for building new things. When I'm not working, you'll usually
-        find me playing guitar or building small projects like this website
-        to learn HTML, CSS, and JavaScript from scratch.
-      </p>
+    <div class="about-inner">
+      <div class="about-photo">BK</div>
+      <div class="about-content">
+        <span class="section-label">About Me</span>
+        <h2>Nice to meet you.</h2>
+        <p class="about-bio">
+          Hello, I'm Bharani Kumar Velakaturi — a working professional with a
+          growing passion for building new things. When I'm not working, you'll usually
+          find me playing guitar or building small projects like this website
+          to learn HTML, CSS, and JavaScript from scratch.
+        </p>
+      </div>
     </div>
   </section>
 
   <!-- ===== PROJECTS ===== -->
   <section class="projects" id="projects">
-    <h2 class="section-title">Projects</h2>
-    <p class="section-sub">Hover over a card to learn more</p>
+    <div class="section-header">
+      <span class="section-label">Projects</span>
+      <h2 class="section-title">Things I've Built</h2>
+      <p class="section-sub">Hover over a card to learn more</p>
+    </div>
 
     <div class="projects-grid">
 
@@ -56,44 +65,40 @@
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="iconGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#60a5fa"/>
-                  <stop offset="100%" stop-color="#c084fc"/>
+                  <stop offset="0%" stop-color="#2563eb"/>
+                  <stop offset="100%" stop-color="#7c3aed"/>
                 </linearGradient>
                 <filter id="glow">
                   <feGaussianBlur stdDeviation="2.5" result="blur"/>
                   <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                 </filter>
               </defs>
-              <!-- Clipboard body -->
-              <rect x="10" y="10" width="44" height="50" rx="7" fill="url(#iconGrad)" opacity="0.15"/>
+              <rect x="10" y="10" width="44" height="50" rx="7" fill="url(#iconGrad)" opacity="0.12"/>
               <rect x="10" y="10" width="44" height="50" rx="7" stroke="url(#iconGrad)" stroke-width="2.2"/>
-              <!-- Clipboard top clip -->
               <rect x="22" y="5" width="20" height="12" rx="4" fill="url(#iconGrad)"/>
-              <!-- Lines -->
               <line x1="20" y1="30" x2="44" y2="30" stroke="url(#iconGrad)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
               <line x1="20" y1="39" x2="36" y2="39" stroke="url(#iconGrad)" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
-              <!-- Checkmark -->
-              <circle cx="46" cy="46" r="11" fill="#0f172a" stroke="url(#iconGrad)" stroke-width="2"/>
+              <circle cx="46" cy="46" r="11" fill="white" stroke="url(#iconGrad)" stroke-width="2"/>
               <polyline points="40,46 44,50 52,41" stroke="url(#iconGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
             </svg>
           </div>
           <h3>Todo App</h3>
-          <p>A clean task manager built with HTML, CSS &amp; JavaScript</p>
+          <p>A cloud-synced task manager with priorities and drag-to-reorder</p>
         </div>
         <div class="card-back">
           <h3>Todo App</h3>
-          <p>Add, complete, and delete tasks. Built to practice DOM manipulation and local state management.</p>
+          <p>Add tasks, set priorities, drag to reorder. Syncs across all your devices with a username.</p>
           <div class="card-tags">
-            <span>HTML</span><span>CSS</span><span>JavaScript</span>
+            <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Firebase</span>
           </div>
-          <a href="../projects/todo-app/index.html" class="btn-card" target="_blank" rel="noopener noreferrer" onclick="window.open('../projects/todo-app/index.html', '_blank'); return false;">Open App →</a>
+          <a href="../projects/todo-app/index.html" class="btn-card" target="_blank" rel="noopener noreferrer" onclick="window.open('../projects/todo-app/index.html','_blank');return false;">Open App →</a>
         </div>
       </div>
 
       <!-- Placeholder card -->
       <div class="project-card coming-soon">
         <div class="card-front">
-          <div class="card-icon">🚀</div>
+          <div class="card-icon" style="font-size:2.8rem;">🚀</div>
           <h3>Coming Soon</h3>
           <p>Next project in the works...</p>
         </div>
@@ -108,16 +113,20 @@
 
   <!-- ===== CONTACT ===== -->
   <section class="contact" id="contact">
-    <h2 class="section-title">Contact Me</h2>
-    <p class="section-sub">Have a question or just want to say hi?</p>
-
-    <form class="contact-form" onsubmit="handleSubmit(event)">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit" class="btn-primary">Send Message</button>
-    </form>
-    <p id="form-msg" class="form-msg"></p>
+    <div class="contact-inner">
+      <div class="section-header">
+        <span class="section-label">Contact</span>
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-sub">Have a question or just want to say hi?</p>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn-primary">Send Message →</button>
+      </form>
+      <p id="form-msg" class="form-msg"></p>
+    </div>
   </section>
 
   <!-- ===== FOOTER ===== -->
