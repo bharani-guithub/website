@@ -1,49 +1,56 @@
 // ============================================
-// script.js — this is where JavaScript behavior lives
+// script.js — Bharani Kumar Velakaturi
 // ============================================
 
-// This function grabs the current time and displays it
+// ----- CLOCK -----
 function updateClock() {
-  const now = new Date(); // JS built-in object that knows the current date/time
-
+  const now = new Date();
   let hours = now.getHours();
   let minutes = now.getMinutes();
   let seconds = now.getSeconds();
 
-  // Figure out AM or PM, then convert hours to 12-hour format
   const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  hours = hours === 0 ? 12 : hours; // "0" should display as "12"
+  hours = hours % 12 || 12;
 
-  // Add a leading zero if the number is less than 10 (e.g. "9" -> "09")
-  hours = hours.toString().padStart(2, '0');
-  minutes = minutes.toString().padStart(2, '0');
-  seconds = seconds.toString().padStart(2, '0');
+  hours   = String(hours).padStart(2, '0');
+  minutes = String(minutes).padStart(2, '0');
+  seconds = String(seconds).padStart(2, '0');
 
-  // Build the final time string, now with AM/PM
-  const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
-
-  document.getElementById('clock').textContent = timeString;
+  document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
 }
-
 updateClock();
 setInterval(updateClock, 1000);
 
-
-// ============================================
-// DARK / LIGHT MODE TOGGLE
-// ============================================
-
+// ----- DARK / LIGHT TOGGLE -----
 const toggleButton = document.getElementById('theme-toggle');
 
 toggleButton.addEventListener('click', function () {
-  // .toggle() adds the class if it's missing, removes it if it's present
   document.body.classList.toggle('light-mode');
+  toggleButton.textContent = document.body.classList.contains('light-mode')
+    ? '🌙 Dark'
+    : '☀️ Light';
+});
 
-  // Update the button's own text/icon depending on current mode
-  if (document.body.classList.contains('light-mode')) {
-    toggleButton.textContent = '🌙 Dark Mode';
-  } else {
-    toggleButton.textContent = '☀️ Light Mode';
-  }
+// ----- CONTACT FORM -----
+function handleSubmit(e) {
+  e.preventDefault();
+  const msg = document.getElementById('form-msg');
+  msg.textContent = '✅ Thanks! Message received. I\'ll get back to you soon.';
+  e.target.reset();
+}
+
+// ----- SMOOTH ACTIVE NAV HIGHLIGHT -----
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    if (window.scrollY >= section.offsetTop - 80) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.style.color = link.getAttribute('href') === `#${current}` ? '#f8fafc' : '';
+  });
 });

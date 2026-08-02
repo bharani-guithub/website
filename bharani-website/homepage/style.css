@@ -1,129 +1,170 @@
 /* ============================================
-   style.css — all the visual design lives here
+   style.css — Bharani Kumar Velakaturi
    ============================================ */
 
-/* This targets the <body> tag — the whole page */
-body {
-  margin: 0;
-  background: #0f172a;
-  color: #f8fafc;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  text-align: center;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f172a;
+  --bg2: #1e293b;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #60a5fa;
+  --accent2: #c084fc;
+  --card-bg: #1e293b;
+  --border: rgba(148, 163, 184, 0.15);
 }
 
-/* The hero (welcome) section now handles the full-screen centering
-   that used to be on <body> */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 36px;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+#theme-toggle {
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#theme-toggle:hover { background: var(--border); }
+
+/* ===== HERO ===== */
 .hero {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  padding: 0 24px;
 }
 
-/* The big heading */
-h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-/* The subtitle text below the heading */
-p {
+.hero-greeting {
+  color: var(--accent);
   font-size: 1.1rem;
-  color: #94a3b8;
-  margin-top: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
 
-/* NEW: hover effect — letters grow slightly when you mouse over them.
-   Try changing the numbers below and see what happens! */
-.name span {
-  transition: transform 0.2s ease, text-shadow 0.2s ease;
-  cursor: default;
-}
-.name span:hover {
-  transform: translateY(-8px) scale(1.2);
-  text-shadow: 0 0 12px currentColor;
+.hero h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 16px;
 }
 
-/* ============================================
-   RESPONSIVE DESIGN — rules that only apply
-   when the screen is 600px wide or smaller
-   (i.e. most phones)
-   ============================================ */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 1.8rem;       /* smaller than the 3rem used on desktop */
-    padding: 0 16px;         /* breathing room on the sides */
-    line-height: 1.4;
-  }
-  p {
-    font-size: 0.95rem;
-    padding: 0 16px;
-  }
+.hero-sub {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 12px;
 }
 
-/* Optional middle ground for tablets */
-@media (max-width: 900px) and (min-width: 601px) {
-  h1 {
-    font-size: 2.3rem;
-  }
+#clock {
+  color: var(--muted);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  margin-bottom: 36px;
 }
 
-/* ============================================
-   LIGHT MODE — applied when JS adds
-   class="light-mode" to <body>
-   ============================================ */
-body.light-mode {
-  background: #f8fafc;
+.btn-primary {
+  display: inline-block;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
   color: #0f172a;
-}
-body.light-mode p {
-  color: #475569;
-}
-
-/* The toggle button itself */
-#theme-toggle {
-  margin-top: 24px;
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  border: 1px solid currentColor;
+  font-weight: 700;
+  font-size: 1rem;
   border-radius: 999px;
-  background: transparent;
-  color: inherit;
+  text-decoration: none;
+  border: none;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: opacity 0.2s, transform 0.2s;
 }
-#theme-toggle:hover {
-  background: rgba(148, 163, 184, 0.15);
+.btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+
+/* ===== SECTION SHARED ===== */
+section { padding: 100px 24px; }
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-/* ============================================
-   ABOUT ME SECTION
-   ============================================ */
+.section-sub {
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 56px;
+  font-size: 1rem;
+}
+
+/* ===== ABOUT ===== */
 .about {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 48px;
+  gap: 56px;
   max-width: 900px;
   margin: 0 auto;
-  padding: 80px 24px;
+  padding: 100px 24px;
   text-align: left;
 }
 
-/* Circular "photo" placeholder with your initials */
 .about-photo {
   flex-shrink: 0;
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #60a5fa, #c084fc);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #0f172a;
 }
 
@@ -133,38 +174,209 @@ body.light-mode p {
 }
 
 .about-bio {
+  color: var(--muted);
+  line-height: 1.8;
   font-size: 1.05rem;
-  line-height: 1.7;
-  color: inherit;
-  opacity: 0.85;
-  margin-bottom: 20px;
-}
-body.light-mode .about-bio {
-  color: #334155;
+  margin-bottom: 24px;
 }
 
-/* Skill tags — small rounded pills */
-.skills {
+.skills { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.skill-tag {
+  background: var(--border);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+/* ===== PROJECTS ===== */
+.projects {
+  background: var(--bg2);
+  text-align: center;
+}
+
+.projects-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-}
-.skill-tag {
-  background: rgba(148, 163, 184, 0.15);
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.9rem;
+  gap: 32px;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-/* On small screens, stack the photo above the text instead of side-by-side */
+/* Card flip container */
+.project-card {
+  width: 280px;
+  height: 300px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.project-card .card-front,
+.project-card .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  padding: 32px 24px;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.project-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.card-front {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+}
+
+.card-back {
+  background: linear-gradient(135deg, #1d3557, #2d1b6e);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  transform: rotateY(180deg);
+}
+
+.project-card:hover { transform: rotateY(180deg); }
+.coming-soon:hover { transform: none; cursor: default; }
+
+.card-icon {
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.4));
+  transition: filter 0.3s ease;
+}
+.project-card:hover .card-icon {
+  filter: drop-shadow(0 0 18px rgba(192, 132, 252, 0.6));
+}
+
+.card-front h3,
+.card-back h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.card-front p,
+.card-back p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.card-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card-tags span {
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+.btn-card {
+  display: inline-block;
+  padding: 10px 22px;
+  background: var(--accent);
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  margin-top: 4px;
+}
+.btn-card:hover { opacity: 0.85; }
+
+/* ===== CONTACT ===== */
+.contact { text-align: center; }
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--accent);
+}
+
+.contact-form textarea { resize: vertical; }
+
+.form-msg {
+  margin-top: 12px;
+  color: var(--accent);
+  font-size: 0.95rem;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 32px 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+/* ===== LIGHT MODE ===== */
+body.light-mode {
+  --bg: #f8fafc;
+  --bg2: #e2e8f0;
+  --text: #0f172a;
+  --muted: #475569;
+  --card-bg: #ffffff;
+  --border: rgba(15, 23, 42, 0.12);
+}
+
+body.light-mode .navbar {
+  background: rgba(248, 250, 252, 0.85);
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 700px) {
+  .navbar { padding: 14px 20px; }
+  .nav-links { gap: 20px; }
+  .hero h1 { font-size: 2rem; }
+
   .about {
     flex-direction: column;
     text-align: center;
-    padding: 60px 24px;
+    gap: 32px;
   }
-  .skills {
-    justify-content: center;
-  }
+  .skills { justify-content: center; }
 }

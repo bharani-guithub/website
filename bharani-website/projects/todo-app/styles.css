@@ -253,6 +253,131 @@ h1 {
     }
 }
 .app-header {
-    text-align: center;
     margin-bottom: 20px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-top h1 {
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.app-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    text-align: left;
+    margin: 0;
+}
+
+#logoutBtn {
+    padding: 8px 14px;
+    background: transparent;
+    border: 2px solid #0f766e;
+    border-radius: 8px;
+    color: #0f766e;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+    flex-shrink: 0;
+}
+#logoutBtn:hover {
+    background: #0f766e;
+    color: white;
+}
+
+/* ===== LOGIN SCREEN ===== */
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #0f766e, #14b8a6, #5eead4);
+}
+
+.login-card {
+    background: rgba(255,255,255,0.97);
+    border-radius: 20px;
+    padding: 48px 40px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    animation: fadeIn 0.5s ease;
+}
+
+.login-icon {
+    margin-bottom: 16px;
+}
+
+.login-card h1 {
+    margin-bottom: 8px;
+    font-size: 28px;
+    color: #134e4a;
+}
+
+.login-subtitle {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+#usernameInput {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 16px;
+    color: #1f2937;
+    background-color: #f8fafc;
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    text-align: center;
+    letter-spacing: 1px;
+}
+#usernameInput:focus {
+    background: white;
+    border-color: #0f766e;
+    box-shadow: 0 0 0 4px rgba(15,118,110,0.15);
+}
+
+#loginButton {
+    width: 100%;
+    padding: 14px;
+    background-color: #0f766e;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-bottom: 16px;
+}
+#loginButton:hover {
+    background-color: #115e59;
+    transform: translateY(-2px);
+}
+
+.login-hint {
+    font-size: 12px;
+    color: #9ca3af;
+    margin: 0;
+}
+
+#loadingMessage {
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+    margin-top: 20px;
 }
